@@ -20,7 +20,7 @@ services:
       MYSQL_DATABASE: productdb
       MYSQL_USER: root
       MYSQL_PASSWORD: 
-      MYSQL_ROOT_HOST: '%'  # needs to be enclosed with quotes
+      MYSQL_ROOT_HOST: 'localhost'  # needs to be enclosed with quotes
     ports:
       - 3306:3306
 
