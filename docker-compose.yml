@@ -17,7 +17,6 @@ services:
       - mysql_data:/var/lib/mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: productdb
       MYSQL_USER: root
       MYSQL_PASSWORD: 
