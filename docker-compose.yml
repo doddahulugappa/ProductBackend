@@ -33,8 +33,6 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
     volumes:
       - mysql_data:/var/lib/mysql
-    restart: unless-stopped
-    container_name: mysql-db
 
 volumes:
   mysql_data:
