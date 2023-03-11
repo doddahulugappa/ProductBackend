@@ -27,10 +27,13 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
 
   db:
-    image: mysql/mysql-server:8.0
+    build:
+      context: .
+      dockerfile: ./docker/mysql/Dockerfile
     environment:
       MYSQL_DATABASE: 'productdb'
       MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+      MYSQL_USER: root
     volumes:
       - mysql_data:/var/lib/mysql
 
