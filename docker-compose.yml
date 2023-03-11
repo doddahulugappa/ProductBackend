@@ -34,8 +34,11 @@ services:
       MYSQL_DATABASE: 'productdb'
       MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
       MYSQL_USER: root
+    restart: unless-stopped
     volumes:
       - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
 
 volumes:
   mysql_data:
