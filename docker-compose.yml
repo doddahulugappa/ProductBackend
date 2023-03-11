@@ -10,20 +10,16 @@ services:
       - 6379:6379
 
   db:
-    build:
-      context: .
-      dockerfile: ./docker/mysql/Dockerfile
+    image: mysql:5.7
     volumes:
       - mysql_data:/var/lib/mysql
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: productdb
-      MYSQL_USER: root
       MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-      MYSQL_ROOT_HOST: 'localhost'  # needs to be enclosed with quotes
     container_name: mysql-db
     ports:
-      - 3306:3306
+      - "3306:3306"
 
   backend:
     build:
