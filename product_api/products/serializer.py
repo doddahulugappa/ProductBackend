@@ -1,4 +1,4 @@
-from .models import Product, Category, Cart
+from .models import Product, Category, Cart, CartItem
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
@@ -11,9 +11,16 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    category_name = serializers.SerializerMethodField('get_category_name')
+
+    def get_category_name(self, obj):
+        if obj.category_id:
+            return obj.category.name
+        return ""
+
     class Meta:
         model = Product
-        fields = ['name', 'category', 'brand', 'price', 'quantity', 'description', 'rating']
+        fields = ['name', 'category_name', 'brand', 'price', 'quantity', 'description', 'rating']
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
@@ -35,3 +42,12 @@ class CartSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Cart
         fields = ['user', 'count', 'total', 'updated', 'timestamp']
+
+
+class CartItemSerializer(serializers.HyperlinkedModelSerializer):
+    product = ProductSerializer()
+    cart = CartSerializer()
+
+    class Meta:
+        model = CartItem
+        fields = ['product', 'cart', 'quantity']

@@ -31,34 +31,45 @@ class Product(models.Model):
         return self.name
 
 
-class Entry(models.Model):
-    product = models.ForeignKey(Product, null=True, on_delete=models.CASCADE)
-    quantity = models.PositiveBigIntegerField()
-
-    def __str__(self):
-        return f"This entry contains {self.quantity} {self.product.name}(s)"
-
-
 class Cart(models.Model):
-    user = models.OneToOneField(
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
-        primary_key=True,
+        on_delete=models.CASCADE, null=True, blank=True
     )
-    entries = models.ManyToManyField(Entry)
+    completed = models.BooleanField(default=False)
     count = models.PositiveBigIntegerField(default=0)
     total = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     updated = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"User: {self.user} has {self.count} items in their cart. Their total is {self.total}"
+        return self.user.username
 
 
-@receiver(post_save, sender=Entry)
+@receiver(post_save, sender=Cart)
+def remove_cart(sender, instance, **kwargs):
+    """
+        removes the cart once marked completed
+    """
+    if instance.completed:
+        instance.delete()
+
+
+class CartItem(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE, related_name='items')
+    cart = models.ForeignKey(Cart, null=True, blank=True, on_delete=models.CASCADE, related_name='cartitems')
+    quantity = models.PositiveBigIntegerField(default=0)
+
+
+@receiver(post_save, sender=CartItem)
 def update_cart(sender, instance, **kwargs):
-    line_cost = instance.quantity * instance.product.price
-    instance.cart.total += line_cost
+    """
+    updates the cart total , count, updated
+    """
+    items_cost = instance.quantity * instance.product.price
+    instance.cart.total += items_cost
     instance.cart.count += instance.quantity
     instance.cart.updated = timezone.now()
     instance.cart.save()

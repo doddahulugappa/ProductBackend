@@ -6,19 +6,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from .filters import ProductFilter
-from .serializer import ProductSerializer, CategorySerializer, ProductImageSerializer, CartSerializer
-from .models import Product, Category, Cart
+from .serializer import ProductSerializer, CategorySerializer, ProductImageSerializer, CartSerializer, \
+    CartItemSerializer
+from .models import Product, Category, Cart, CartItem
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
 
 # ViewSets define the view behavior.
 class ProductViewSet(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.FileUploadParser)
     renderer_classes = (renderers.JSONRenderer,)
     serializer_class = ProductSerializer
-    # permission_classes = [IsAuthenticated]
     # filter_backends = [DjangoFilterBackend]
     filterset_class = ProductFilter
     # filterset_fields = ['price', 'category__name','brand','created_at', 'rating']
@@ -39,15 +40,23 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    # permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
 
 
 class CartViewSet(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+    filter_backends = [DjangoFilterBackend]
+
+
+class CartItemViewSet(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
     filter_backends = [DjangoFilterBackend]
 
 

@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from django.conf import settings
 from rest_framework import routers
-from .views import ProductViewSet, CategoryViewSet, UploadView, CartViewSet
+from .views import ProductViewSet, CategoryViewSet, UploadView, CartViewSet, CartItemViewSet
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -34,6 +34,7 @@ router = routers.DefaultRouter()
 router.register(r'Products', ProductViewSet )
 router.register(r'Category', CategoryViewSet)
 router.register(r'Carts', CartViewSet)
+router.register(r'CartItems', CartItemViewSet)
 
 
 urlpatterns = [
