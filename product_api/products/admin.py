@@ -1,13 +1,15 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
+
 from .models import Product, Category, Cart, Entry, ActiveUser
 
 
 # Register your models here.
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(ImportExportModelAdmin):
     list_display = ['name']
 
 
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(ImportExportModelAdmin):
     list_display = ['name', 'category', 'brand', 'price', 'quantity', 'rating']
 
 
@@ -15,7 +17,7 @@ class CartAdmin(admin.ModelAdmin):
     list_display = ['user', 'get_entries', 'count', 'total', 'updated', 'timestamp']
 
     def get_entries(self, obj):
-        return "\n".join([str(p) for p in obj.user.all()])
+        return "\n".join([str(p) for p in obj.entries.all()])
 
 
 class EntryAdmin(admin.ModelAdmin):

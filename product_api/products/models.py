@@ -40,7 +40,11 @@ class Entry(models.Model):
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
     entries = models.ManyToManyField(Entry)
     count = models.PositiveBigIntegerField(default=0)
     total = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
