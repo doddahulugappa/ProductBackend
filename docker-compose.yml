@@ -9,7 +9,7 @@ services:
     ports:
       - 6379:6379
 
-  mysql-db:
+  db:
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
@@ -19,8 +19,9 @@ services:
     environment:
       MYSQL_DATABASE: productdb
       MYSQL_USER: root
-      MYSQL_PASSWORD: 
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
       MYSQL_ROOT_HOST: 'localhost'  # needs to be enclosed with quotes
+    container_name: mysql-db
     ports:
       - 3306:3306
 
@@ -34,7 +35,7 @@ services:
     volumes:
       - .:/app/
     depends_on:
-      - mysql-db
+      - db
       - redis
     working_dir: "/app/product_api"
     expose:
