@@ -20,13 +20,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['name', 'category_name', 'brand', 'price', 'quantity', 'description', 'rating', 'image']
+        fields = ['name', 'category_name', 'brand', 'price', 'quantity', 'description', 'rating']
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['id', 'name']
 
 
 # Serializers define the API representation.

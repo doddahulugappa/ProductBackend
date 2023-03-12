@@ -126,6 +126,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # =============== Rest Framework Settings ===================== #
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
@@ -134,9 +135,6 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 5,
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.FileUploadParser'
-    ],
 
 }
 ACCESS_TOKEN_LIFETIME = os.environ.get("ACCESS_TOKEN_LIFETIME", 5),
@@ -145,6 +143,13 @@ LOGOUT_URL = 'rest_framework:logout'
 
 # =============== Swagger Settings ===================== #
 SWAGGER_SETTINGS = {
+    "enabled_methods": [  # Specify which methods to enable in Swagger UI
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete'
+    ],
     'SECURITY_DEFINITIONS': {
         'USE_SESSION_AUTH': False,
         'Bearer': {
