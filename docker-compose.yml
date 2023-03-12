@@ -5,18 +5,15 @@ services:
   redis:
     image: 'bitnami/redis:latest'
     container_name: redisdb
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
+    env_file:
+      - .env
 
   db:
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
-    environment:
-      MYSQL_DATABASE: 'productdb'
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-      MYSQL_USER: root
-      MYSQL_ROOT_HOST: '%'
+    env_file:
+      - .env
     restart: unless-stopped
     volumes:
       - mysql_data:/var/lib/mysql
