@@ -58,6 +58,7 @@ services:
     depends_on:
       - db
       - redis
+      - backend
 
   celery_beat:
     restart: always
@@ -75,6 +76,7 @@ services:
     depends_on:
       - redis
       - db
+      - backend
 
 volumes:
   mysql_data:
