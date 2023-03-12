@@ -9,7 +9,7 @@ done
 until python manage.py migrate
 do
     echo "Waiting for db to be ready..."
-    sleep 4
+    sleep 10
 done
 
 # Collect Static files
