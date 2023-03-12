@@ -14,7 +14,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
     brand = models.CharField(max_length=50, null=True)
     description = models.CharField(max_length=200, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
