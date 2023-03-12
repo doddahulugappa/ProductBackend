@@ -12,10 +12,14 @@ do
     sleep 4
 done
 
-
+# Collect Static files
 python manage.py collectstatic --noinput
 
 # createsuperuser
 python manage.py createsuperuser --noinput
 
+# execute tests
+python manage.py test
+
+# Bind
 gunicorn backend.wsgi --bind 0.0.0.0:80 --workers 4 --threads 4
