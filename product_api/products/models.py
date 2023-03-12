@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -53,6 +53,22 @@ def remove_cart(sender, instance, **kwargs):
         removes the cart once marked completed
     """
     if instance.completed:
+        # make cart emtpy and reset back cart completed to False
+        # instance.count = 0
+        # instance.total = 0.00
+        # instance.updated = timezone.now()
+        # instance.completed = False
+        # instance.save()
+
+        # make stock/quantity update in product model
+        items = CartItem.objects.filter(cart=instance.id)
+        for item in items:
+            print(item.quantity, item.product)
+            prod_obj = Product.objects.get(name=item.product)
+            prod_obj.quantity -= item.quantity
+            prod_obj.save()
+
+        # Cart can be deleted
         instance.delete()
 
 
@@ -73,6 +89,14 @@ def update_cart(sender, instance, **kwargs):
     instance.cart.count += instance.quantity
     instance.cart.updated = timezone.now()
     instance.cart.save()
+
+
+@receiver(pre_save, sender=CartItem)
+def check_stock(sender, instance, **kwargs):
+    inventory_item = Product.objects.get(id=instance.product.id)
+
+    if instance.quantity > inventory_item.quantity:
+        raise Exception("There are not enough stock")
 
 
 class ActiveUser(models.Model):

@@ -1,20 +1,18 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, parsers, renderers, status
 from rest_framework.decorators import action
-
-from .filters import ProductFilter
+from rest_framework.permissions import IsAuthenticated
+from .filters import ProductFilter, CartItemFilter, CartFilter, CategoryFilter
 from .serializer import ProductSerializer, CategorySerializer, ProductImageSerializer, CartSerializer, \
     CartItemSerializer
 from .models import Product, Category, Cart, CartItem
 from rest_framework.response import Response
-
-
-# ViewSets define the view behavior.
 from .utils.imageprocessing import start_parallel_processing
 
 
+# ViewSets define the view behavior.
 class ProductViewSet(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.FileUploadParser)
     renderer_classes = (renderers.JSONRenderer,)
@@ -24,29 +22,31 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     filter_backends = [DjangoFilterBackend]
+    filterset_class = CategoryFilter
 
 
 class CartViewSet(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
     filter_backends = [DjangoFilterBackend]
+    filterset_class = CartFilter
 
 
 class CartItemViewSet(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     filter_backends = [DjangoFilterBackend]
+    filterset_class = CartItemFilter
 
 
 class UploadViewSet(viewsets.ModelViewSet):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
     queryset = Product.objects.all()
     serializer_class = ProductImageSerializer

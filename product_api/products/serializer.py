@@ -46,8 +46,8 @@ class CartSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CartItemSerializer(serializers.HyperlinkedModelSerializer):
-    product = ProductSerializer()
-    cart = CartSerializer()
+    product = ProductSerializer(read_only=True)
+    cart = CartSerializer(read_only=True)
 
     class Meta:
         model = CartItem
