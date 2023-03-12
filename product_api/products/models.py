@@ -41,7 +41,7 @@ class Cart(models.Model):
     count = models.PositiveBigIntegerField(default=0)
     total = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     updated = models.DateTimeField(auto_now=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username

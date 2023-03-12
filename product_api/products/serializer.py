@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['image']
+        fields = ['id', 'image']
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -20,28 +20,29 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['name', 'category_name', 'brand', 'price', 'quantity', 'description', 'rating']
+        fields = ['name', 'category_name', 'brand', 'price', 'quantity', 'description', 'rating', 'image']
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = ['name', ]
+        fields = '__all__'
 
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username', 'email']
 
 
 class CartSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(read_only=True)
+    cartitems = Cart.objects.all().prefetch_related("cartitems")
 
     class Meta:
         model = Cart
-        fields = ['user', 'count', 'total', 'updated', 'timestamp']
+        fields = ['user', 'cartitems', 'count', 'total', 'updated', 'created', 'completed']
 
 
 class CartItemSerializer(serializers.HyperlinkedModelSerializer):

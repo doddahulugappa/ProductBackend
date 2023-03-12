@@ -14,7 +14,7 @@ class ProductAdmin(ImportExportModelAdmin):
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['user', 'count', 'total', 'updated', 'timestamp', 'completed']
+    list_display = ['user', 'count', 'total', 'updated', 'created', 'completed']
     readonly_fields = ['count', 'total']
 
 
