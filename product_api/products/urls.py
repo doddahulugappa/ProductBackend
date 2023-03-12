@@ -39,7 +39,6 @@ router.register(r'CartItems', CartItemViewSet)
 ProductImage = UploadViewSet.as_view({'put': 'update'})
 
 
-
 urlpatterns = [
     path('', include(router.urls)),
     path('Products/<int:pk>/image/', ProductImage, name='image_upload'),
