@@ -1,19 +1,18 @@
-from django_filters.rest_framework import DjangoFilterBackend, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, parsers, renderers, status
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 
 from .filters import ProductFilter
 from .serializer import ProductSerializer, CategorySerializer, ProductImageSerializer, CartSerializer, \
     CartItemSerializer
 from .models import Product, Category, Cart, CartItem
-from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
 
 # ViewSets define the view behavior.
+from .utils.imageprocessing import start_parallel_processing
+
+
 class ProductViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
@@ -52,13 +51,20 @@ class UploadViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductImageSerializer
 
-    @action(detail=False, methods=['put'])
-    def post(self, request, **kwargs):
+    @action(detail=True, methods=['put'])
+    def update(self, request, pk=None):
+        prod_obj = Product.objects.get(pk=pk)
         serializer = ProductImageSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            data = serializer.validated_data.get('image')
-            serializer.save(image=data)
-            return Response(serializer.data, status=200)
+            image = serializer.validated_data.get('image')
+            prod_obj.image=image
+            prod_obj.save()
+            try:
+                start_parallel_processing([prod_obj.image.path])
+            except Exception as e:
+                print(e)
+
+            return Response({'message': 'success'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
