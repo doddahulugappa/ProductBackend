@@ -48,6 +48,7 @@ services:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
     image: celeryworker
+    working_dir: "/app/product_api"
     command: celery -A product_api worker --loglevel=info
     container_name: celery_container
     volumes:
@@ -66,6 +67,7 @@ services:
       dockerfile: ./docker/mysql/Dockerfile
     image: celerybeat
     container_name: celerybeat_container
+    working_dir: "/app/product_api"
     command: celery -A product_api beat --loglevel=info
     volumes:
       - .:/app/
