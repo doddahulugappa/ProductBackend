@@ -48,7 +48,7 @@ services:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
     image: celeryworker
-    command: celery -A backend.celery worker --loglevel=info --concurrency 1 -E
+    command: celery -A backend worker --loglevel=info --concurrency 1 -E
     container_name: celery_container
     volumes:
       - .:/app/
@@ -65,7 +65,7 @@ services:
       dockerfile: ./docker/mysql/Dockerfile
     image: celerybeat
     container_name: celerybeat_container
-    command: celery -A backend.celery beat --loglevel=info
+    command: celery -A backend beat --loglevel=info
     volumes:
       - .:/app/
     env_file:
