@@ -65,6 +65,7 @@ services:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
     image: product_api
+    container_name: celerybeat_container
     command: celery -A backend beat --loglevel=info --scheduler=django_celery_beat.schedulers.DatabaseScheduler
 
     volumes:
