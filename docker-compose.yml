@@ -42,7 +42,19 @@ services:
     depends_on:
       - db
       - redis
-
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A backend worker -l info
+    volumes:
+      - ./backend:/backend
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - backend
 
 volumes:
   mysql_data:
