@@ -1,10 +1,11 @@
+from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, parsers, renderers, status
+from rest_framework import viewsets, parsers, renderers, status, generics
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .filters import ProductFilter, CartItemFilter, CartFilter, CategoryFilter
 from .serializer import ProductSerializer, CategorySerializer, ProductImageSerializer, CartSerializer, \
-    CartItemSerializer
+    CartItemSerializer, RegisterSerializer
 from .models import Product, Category, Cart, CartItem
 from rest_framework.response import Response
 from .utils.imageprocessing import start_parallel_processing
@@ -45,6 +46,12 @@ class CartItemViewSet(viewsets.ModelViewSet):
     filterset_class = CartItemFilter
 
 
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
+
+
 class UploadViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     parser_classes = (parsers.MultiPartParser, parsers.FormParser)
@@ -57,7 +64,7 @@ class UploadViewSet(viewsets.ModelViewSet):
         serializer = ProductImageSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             image = serializer.validated_data.get('image')
-            prod_obj.image=image
+            prod_obj.image = image
             prod_obj.save()
             try:
                 start_parallel_processing([prod_obj.image.path])

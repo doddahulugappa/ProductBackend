@@ -40,14 +40,14 @@ class CartItemFilter(filters.FilterSet):
 
 
 class CartFilter(filters.FilterSet):
-    user__user__username = filters.CharFilter(lookup_expr='iexact')
+    user__username = filters.CharFilter(lookup_expr='iexact')
     completed = filters.BooleanFilter(lookup_expr='iexact', help_text="True/False")
     min_count = filters.NumberFilter(field_name="count", lookup_expr='gte')
     max_count = filters.NumberFilter(field_name="count", lookup_expr='lte')
 
     class Meta:
         model = Cart
-        fields = ['user__user__username', 'completed',
+        fields = ['user__username', 'completed',
                   'min_count', 'max_count',
                  ]
 

@@ -6,10 +6,10 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from django.conf import settings
 from rest_framework import routers
-from .views import ProductViewSet, CategoryViewSet, CartViewSet, CartItemViewSet, UploadViewSet
+from .views import ProductViewSet, CategoryViewSet, CartViewSet, CartItemViewSet, UploadViewSet, RegisterView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
-    TokenRefreshView,
+    TokenRefreshView
 )
 
 
@@ -46,6 +46,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('register/', RegisterView.as_view(), name='auth_register'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
