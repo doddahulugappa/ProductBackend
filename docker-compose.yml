@@ -34,6 +34,7 @@ services:
       - .:/app/
 
     working_dir: "/app/product_api"
+    image: product_api
     container_name: api_container
     expose:
       - 80
@@ -48,6 +49,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
+    image: product_api
     command: celery -A backend worker -l info
     container_name: celery_container
     volumes:
@@ -57,7 +59,6 @@ services:
     depends_on:
       - db
       - redis
-      - backend
 
 volumes:
   mysql_data:
