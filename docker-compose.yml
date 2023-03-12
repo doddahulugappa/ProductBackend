@@ -26,6 +26,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/backend/Dockerfile
+
     env_file:
       - .env
     restart: unless-stopped
@@ -42,14 +43,15 @@ services:
     depends_on:
       - db
       - redis
-  celery:
+  celery_worker:
     restart: always
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
     command: celery -A backend worker -l info
+    container_name: celery_container
     volumes:
-      - ./backend:/backend
+      - .:/app/
     env_file:
       - .env
     depends_on:
