@@ -4,7 +4,7 @@ services:
 
   redis:
     image: 'bitnami/redis:latest'
-    container_name: redisdb
+    container_name: redis_container
     env_file:
       - .env
 
@@ -14,6 +14,7 @@ services:
       dockerfile: ./docker/mysql/Dockerfile
     env_file:
       - .env
+    container_name: db_container
     restart: unless-stopped
     volumes:
       - mysql_data:/var/lib/mysql
