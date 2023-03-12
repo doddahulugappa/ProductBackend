@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-
   redis:
     image: 'bitnami/redis:latest'
     container_name: redis_container
@@ -26,13 +25,11 @@ services:
     build:
       context: .
       dockerfile: ./docker/backend/Dockerfile
-
     env_file:
       - .env
     restart: unless-stopped
     volumes:
       - .:/app/
-
     working_dir: "/app/product_api"
     image: product_api
     container_name: api_container
@@ -44,13 +41,14 @@ services:
     depends_on:
       - db
       - redis
+
   celery_worker:
     restart: always
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
     image: celeryworker
-    command: celery -A backend worker --loglevel=info --concurrency 1 -E
+    command: celery -A backend.celery worker --loglevel=info --concurrency 1 -E
     container_name: celery_container
     volumes:
       - .:/app/
@@ -61,13 +59,13 @@ services:
       - redis
 
   celery_beat:
+    restart: always
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
     image: celerybeat
     container_name: celerybeat_container
-    command: celery -A backend beat --loglevel=info --scheduler=django_celery_beat.schedulers.DatabaseScheduler
-
+    command: celery -A backend.celery beat --loglevel=info
     volumes:
       - .:/app/
     env_file:
