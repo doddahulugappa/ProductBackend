@@ -84,11 +84,17 @@ def update_cart(sender, instance, **kwargs):
     """
     updates the cart total , count, updated
     """
-    items_cost = instance.quantity * instance.product.price
-    instance.cart.total += items_cost
-    instance.cart.count += instance.quantity
-    instance.cart.updated = timezone.now()
-    instance.cart.save()
+    cart_items = CartItem.objects.filter(cart=instance.cart)
+    cart_obj = Cart.objects.get(user=instance.cart.user)
+    cart_obj.total = 0
+    cart_obj.count = 0
+    for cart_item in cart_items:
+        prod_obj = Product.objects.get(name=cart_item.product)
+        items_cost = cart_item.quantity * prod_obj.price
+        cart_obj.total = cart_obj.total + items_cost
+        cart_obj.count = cart_obj.count + cart_item.quantity
+        cart_obj.updated = timezone.now()
+        cart_obj.save()
 
 
 @receiver(pre_save, sender=CartItem)
