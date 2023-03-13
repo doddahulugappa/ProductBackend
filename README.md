@@ -8,7 +8,7 @@ cd ProductBackend
 ```
 
 create .env file and paste the data from sample env by updating blank variables
-default one can be used as it is
+and default one use as it is
 
 ```
 
