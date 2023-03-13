@@ -31,17 +31,17 @@ schema_view = get_schema_view(
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-router.register(r'Products', ProductViewSet)
-router.register(r'Category', CategoryViewSet)
-router.register(r'Carts', CartViewSet)
-router.register(r'CartItems', CartItemViewSet)
+router.register(r'products', ProductViewSet)
+router.register(r'category', CategoryViewSet)
+router.register(r'carts', CartViewSet)
+router.register(r'carttems', CartItemViewSet)
 
 ProductImage = UploadViewSet.as_view({'put': 'update'})
 
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('Products/<int:pk>/image/', ProductImage, name='image_upload'),
+    path('products/<int:pk>/image/', ProductImage, name='image_upload'),
     path('api-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -4,13 +4,23 @@
 ```
 git clone https://github.com/doddahulugappa/ProductBackend.git
 
-cd ProductBackend
+cd ProductBackend 
+```
+
+create .env file and paste the data from sample env by updating blank variables
+default one can be used as it is
+
+```
 
 docker compose build
 
 docker compose up -d
 
 docker ps -a
+
+```
+In case if required execute following steps to do
+```
 
 docker exec -it api_container python manage.py makemigrations
 
@@ -22,8 +32,9 @@ docker exec -it api_container python manage.py createsuperuser
 
 # Usage Guide
 - Open the url in any browser (http://HOST/api-docs)
-- get JWT token by passing username & password 
-- Authorise using JWT token 
+- register user using /register/ endpoint
+- get JWT token by passing username & password using /token/ endpoint
+- Authorise using JWT token like below while pasting token in the box
 `Bearer <JWTTOKEN>`
 - explore all other endpoints 
 
