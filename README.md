@@ -1,6 +1,6 @@
 # ProductBackend
 
-## setup
+## setup instructions
 ```
 git clone https://github.com/doddahulugappa/ProductBackend.git
 
@@ -45,12 +45,16 @@ Explore other urls
 
 
 ## Assumptions
+- git is installed and working
+- docker is installed and working
+- port 80 inbound connection allowed for the server
 - cart completed means cart checkout done and made payment
 - keeping above point in mind , updated stock count and deleted cart using post save signal
-- every time user adds items to cart, there is stock check using presave signal 
+- every time user adds items to cart, there is stock check using pre save signal 
 - everyday @ 8am mail sending to eligible accounts
 - images made specific size & thumbnail size post uploading and stored in same path appending -thumb , -full to image 
 name
+
 
 
 
