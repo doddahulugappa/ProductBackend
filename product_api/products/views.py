@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, parsers, renderers, status, generics
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .filters import ProductFilter, CartItemFilter, CartFilter, CategoryFilter
 from .serializer import ProductSerializer, CategorySerializer, ProductImageSerializer, CartSerializer, \
     CartItemSerializer, RegisterSerializer
@@ -58,7 +58,6 @@ class CartItemViewSet(viewsets.ModelViewSet):
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
-    permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
 
