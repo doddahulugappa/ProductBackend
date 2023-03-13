@@ -14,7 +14,6 @@ load_dotenv()  # load env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
@@ -82,12 +81,11 @@ DATABASES = {
         'PORT': os.environ.get("MYSQL_PORT"),
         "OPTIONS":
             {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
             },
 
     }
 }
-
 
 # Password validation
 
@@ -139,7 +137,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-       'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
@@ -193,12 +191,11 @@ CELERY_CACHE_BACKEND = 'default'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_IMPORTS = ('products.tasks',)
 CELERY_BEAT_SCHEDULE = {
-'send-mail': {
-'task': 'products.tasks.send_activation_mail',
-'schedule': crontab(minute=0, hour=8)  # every day at 8am in morning
+    'send-mail': {
+        'task': 'products.tasks.send_activation_mail',
+        'schedule': crontab(minute=0, hour=8)  # every day at 8am in morning
+    }
 }
-}
-
 
 # django db cache setting.
 CACHES = {
