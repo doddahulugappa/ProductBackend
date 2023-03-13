@@ -37,6 +37,12 @@ docker exec -it api_container python manage.py createsuperuser
 - Authorise using JWT token like below while pasting token in the box
 `Bearer <JWTTOKEN>`
 - explore all other endpoints 
+- http://HOST/api-docs
+
+Explore other urls
+- http://HOST
+- http://HOST/admin
+
 
 ## Assumptions
 - cart completed means cart checkout done and made payment
