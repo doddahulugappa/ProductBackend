@@ -1,6 +1,6 @@
-# ProductBackend
+# ProductBackend API Project
 
-## setup instructions
+## Setup instructions
 ```
 git clone https://github.com/doddahulugappa/ProductBackend.git
 
@@ -30,7 +30,7 @@ docker exec -it api_container python manage.py createsuperuser
 
 ```
 
-# Usage Guide
+## Usage Guide
 - Open the url in any browser (http://HOST/api-docs)
 - register user using /register/ endpoint
 - get JWT token by passing username & password using /token/ endpoint
