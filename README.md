@@ -54,3 +54,27 @@ Explore other urls
 - everyday @ 8am mail sending to eligible accounts
 - images made specific size & thumbnail size post uploading and stored in same path appending -thumb , -full to image 
 name
+
+## Features
+
+- Product App Rest API's with swagger API browser - Open API specification
+- JWT Authentication
+- Django admin 
+- Docker files and Docker Compose manifest file to deploy all services together
+- Celery to handle async/periodic tasks
+- get/post/put/patch/delete methods for below models
+  - Products
+  - Category
+  - Cart
+  - CartItems
+- user registration
+- get token & refresh token
+- Image upload with put method for products and saved various sizes of images uploaded like thumbnail , 
+specific size images using multiprocessing
+- MySQL Database
+- Sending mail
+- Pagination
+- redis to handle caching and message broker
+- API served via Gunicorn - Web server gateway interface
+- Test cases
+
