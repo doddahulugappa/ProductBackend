@@ -54,7 +54,3 @@ Explore other urls
 - everyday @ 8am mail sending to eligible accounts
 - images made specific size & thumbnail size post uploading and stored in same path appending -thumb , -full to image 
 name
-
-
-
-
