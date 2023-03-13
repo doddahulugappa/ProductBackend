@@ -36,7 +36,7 @@ router.register(r'category', CategoryViewSet)
 router.register(r'carts', CartViewSet)
 router.register(r'carttems', CartItemViewSet)
 
-ProductImage = UploadViewSet.as_view({'put': 'update'})
+ProductImage = UploadViewSet.as_view({'post': 'update'})
 
 
 urlpatterns = [

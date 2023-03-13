@@ -71,10 +71,12 @@ name
 - get token & refresh token
 - Image upload with put method for products and saved various sizes of images uploaded like thumbnail , 
 specific size images using multiprocessing
-- MySQL Database
-- Sending mail
-- Pagination
+- MySQL Database used as backend DB
+- Sending mail for the registered user after one day using celery worker & celery beat 
+- Pagination for the search results
+- Sorting for the search results
 - redis to handle caching and message broker
 - API served via Gunicorn - Web server gateway interface
+- keys/Secretes/Creds & some important settings handled with environment variables
 - Test cases
 

@@ -14,7 +14,7 @@ from .utils.imageprocessing import start_parallel_processing
 # ViewSets define the view behavior.
 class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by('name', 'price')
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.FileUploadParser)
     renderer_classes = (renderers.JSONRenderer,)
     serializer_class = ProductSerializer
@@ -24,7 +24,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by('name')
     serializer_class = CategorySerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = CategoryFilter
@@ -32,7 +32,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 class CartViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Cart.objects.all()
+    queryset = Cart.objects.all().order_by('-count')
     serializer_class = CartSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = CartFilter
@@ -40,7 +40,7 @@ class CartViewSet(viewsets.ModelViewSet):
 
 class CartItemViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = CartItem.objects.all()
+    queryset = CartItem.objects.all().order_by('cart', 'product')
     serializer_class = CartItemSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = CartItemFilter
@@ -67,7 +67,7 @@ class UploadViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductImageSerializer
 
-    @action(detail=True, methods=['put'])
+    @action(detail=True, methods=['POST'])
     def update(self, request, pk=None):
         prod_obj = Product.objects.get(pk=pk)
         serializer = ProductImageSerializer(data=request.data)
