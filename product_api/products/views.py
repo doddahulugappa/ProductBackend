@@ -45,6 +45,16 @@ class CartItemViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = CartItemFilter
 
+    def destroy(self, request, *args, **kwargs):
+        cart_item = self.get_object()
+        cart_obj = Cart.objects.get(user=cart_item.cart.user)
+        product_obj = Product.objects.get(name=cart_item.product)
+        cart_obj.count -= cart_item.quantity
+        cart_obj.total = cart_obj.total - (cart_item.quantity * product_obj.price)
+        cart_obj.save()
+        cart_item.delete()
+        return Response(data='Delete Success', status=status.HTTP_200_OK)
+
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
