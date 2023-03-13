@@ -5,6 +5,7 @@ Django settings for product_api project.
 import os
 from pathlib import Path
 
+from celery.schedules import crontab
 from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
 
@@ -191,6 +192,12 @@ CELERY_CACHE_BACKEND = 'default'
 # Celery Beat Settings
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_IMPORTS = ('products.tasks',)
+CELERY_BEAT_SCHEDULE = {
+'send-mail': {
+'task': 'products.tasks.send_activation_mail',
+'schedule': crontab(minute=0, hour=8)  # every day at 8am in morning
+}
+}
 
 
 # django db cache setting.
