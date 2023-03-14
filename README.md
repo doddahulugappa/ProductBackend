@@ -70,7 +70,7 @@ name
   - CartItems
 - User registration
 - Get token & refresh token
-- Image upload with put method for products and saved various sizes of images uploaded like thumbnail , 
+- Image upload with Post method for products and saved various sizes of images uploaded like thumbnail , 
 specific size images using multiprocessing
 - MySQL Database used as backend DB
 - Sending mail for the registered user after one day using celery worker & celery beat 
