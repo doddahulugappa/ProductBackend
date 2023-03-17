@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
@@ -18,14 +21,11 @@ class Product(models.Model):
     brand = models.CharField(max_length=50, null=True)
     description = models.CharField(max_length=200, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
-    price = models.DecimalField(decimal_places=2, max_digits=10, default=0.00)
+    price = models.DecimalField(decimal_places=2, max_digits=10, default=0.00, validators=[MinValueValidator(Decimal('0'))])
     quantity = models.PositiveIntegerField()
     created_at = models.DateTimeField(default=timezone.now)
-    rating = models.FloatField(default=5)
+    rating = models.FloatField(default=5, validators=[MinValueValidator(Decimal('0.1')), MaxValueValidator(Decimal('5.0'))])
     image = models.ImageField(upload_to="uploads/%Y/%m/%d/", max_length=255, null=True, blank=True)
-
-    class Meta:
-        ordering = ('price',)
 
     def __str__(self):
         return self.name
