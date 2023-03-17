@@ -15,11 +15,9 @@ from .utils.imageprocessing import start_parallel_processing
 class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Product.objects.all().order_by('name', 'price')
-    parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.FileUploadParser)
-    renderer_classes = (renderers.JSONRenderer,)
     serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend]
     filterset_class = ProductFilter
-    ordering_fields = ['price']
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
