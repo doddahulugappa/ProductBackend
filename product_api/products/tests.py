@@ -1,3 +1,6 @@
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from .models import Product, Category
 from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
@@ -10,14 +13,16 @@ class ProductTestCase(APITestCase):
     """
 
     def setUp(self):
-        self.client = APIClient()
+        user = User.objects.create_user(username='testuser', email='testuser.com', password='DummyPWD231@')
+        refresh = RefreshToken.for_user(user)
+        self.client = APIClient(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
         self.data = {
             "name": "Mobile",
             "brand": "samsung",
             "price": 250.00,
             "quantity": 100,
         }
-        self.url = "/Products/"
+        self.url = "/products/"
 
     def test_create_product(self):
         """
@@ -57,17 +62,20 @@ class ProductTestCase(APITestCase):
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+
 class CategoryTestCase(APITestCase):
     """
     Test suite for Category
     """
 
     def setUp(self):
-        self.client = APIClient()
         self.data = {
             "name": "Electronics",
         }
-        self.url = "/Category/"
+        self.url = "/category/"
+        user = User.objects.create_user(username='testuser', email='testuser.com', password='DummyPWD231@')
+        refresh = RefreshToken.for_user(user)
+        self.client = APIClient(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
 
     def test_create_category(self):
         """

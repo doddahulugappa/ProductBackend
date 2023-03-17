@@ -23,7 +23,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['name', 'category_name', 'brand', 'price', 'quantity', 'description', 'rating']
+        fields = ['name', 'category_name', 'brand', 'price', 'quantity', 'description', 'rating', 'category']
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
